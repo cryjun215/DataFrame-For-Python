@@ -5,7 +5,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 
-URL = "https://pythondojang.bitbucket.io/weather/observation/currentweather.html"
+URL = "https://www.kma.go.kr/weather/observation/currentweather.jsp"
 
 res = requests.get(URL)
 soup = bs(res.content, 'html.parser')
@@ -21,12 +21,12 @@ for tr in table.find_all('tr'):
                         humidity = tds[9].text
                         data.append([point, temperature, humidity])
 
-with open ('weather.csv','w') as file:
+with open ('weather.csv','w', encoding='UTF-8') as file:
         file.write('point, temperature, humidity\n')
         for i in data:
                 file.write('{0}, {1}, {2}\n'.format(i[0], i[1], i[2]))
                 
-df = pd.read_csv('weather.csv', index_col='point', encoding='euc-kr')
+df = pd.read_csv('weather.csv', index_col='point', encoding='UTF-8')
 
 font_name = mpl.font_manager.FontProperties(fname='C:/Windows/Fonts/malgun.ttf').get_name()
 mpl.rc('font', family=font_name)
